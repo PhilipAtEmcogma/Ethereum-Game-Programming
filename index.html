@@ -9,6 +9,66 @@
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.min.js"></script>
 </head>
 <body>
-    
+    <script>
+        //configure the game settings
+        var config ={
+            width:800,
+            height:500,
+            type:Phaser.AUTO,
+            scene:{
+                preload: gamePreload,
+                create: gameCreate,
+                update: gameUpdate
+            },
+
+            physics:{
+                default:"arcade",
+                arcade:{
+                    gravity:{y:200},
+                    debug:false
+                }
+            }
+        }
+
+        function gamePreload(){
+            //load assets
+            //variable name of loaded img, src location of img
+            this.load.image("knight","assets/knight.png");
+            this.load.image("crate","assets/crate.png");
+        }
+
+        function gameCreate(){
+            // initial setup logic on the asset and other setting
+            // draw knight sprite onto canvas
+            var knight = this.physics.add.sprite(200,100,"knight");
+
+            // setting the collision box closer to the knight
+            knight.body.setSize(400,600,10,0);
+
+            // scale down knight
+            knight.scaleX = 0.2;
+            knight.scaleY = knight.scaleX;
+
+            // create the crate for knight to stand on
+            var crates = this.physics.add.staticGroup();
+            crates.create(40,460,"crate");
+            crates.create(120,460,"crate");
+            crates.create(200,460,"crate");
+            crates.create(280,460,"crate");
+            crates.create(360,460,"crate");
+            crates.create(440,460,"crate");
+
+            // defining which objects can colliade with each other
+            this.physics.add.collider(crates, knight);
+
+        }
+
+        function gameUpdate(){
+            // monitoring inputs and telling game how to update
+        }
+
+        var game = new Phaser.Game(congif);
+
+    </script>
 </body>
 </html>
