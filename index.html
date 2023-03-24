@@ -11,6 +11,10 @@
 <body>
     <script>
         //configure the game settings
+        var cursors;
+        var knight;
+        var crates;
+
         var config ={
             width:800,
             height:500,
@@ -40,7 +44,7 @@
         function gameCreate(){
             // initial setup logic on the asset and other setting
             // draw knight sprite onto canvas
-            var knight = this.physics.add.sprite(200,100,"knight");
+            knight = this.physics.add.sprite(200,100,"knight");
 
             // setting the collision box closer to the knight
             knight.body.setSize(400,600,10,0);
@@ -50,7 +54,7 @@
             knight.scaleY = knight.scaleX;
 
             // create the crate for knight to stand on
-            var crates = this.physics.add.staticGroup();
+            crates = this.physics.add.staticGroup();
             crates.create(40,460,"crate");
             crates.create(120,460,"crate");
             crates.create(200,460,"crate");
@@ -61,10 +65,27 @@
             // defining which objects can colliade with each other
             this.physics.add.collider(crates, knight);
 
+            cursors = this.input.keyboard.createCursorKeys();
         }
 
         function gameUpdate(){
             // monitoring inputs and telling game how to update
+
+            if(cursors.left.isDown){
+                console.log("left key down");
+                knight.setVelocity(-100);
+            }
+            else if(cursors.right.isDown){
+                console.log("right key down");
+                knight.setVelocityX(100);
+            }
+            else{
+                knight.setVelocityX(0);
+            }
+
+            if(cursor.up.isDown && knight.body.touching.down){
+                knight.setVelocityY(-300);
+            }
         }
 
         var game = new Phaser.Game(congif);
