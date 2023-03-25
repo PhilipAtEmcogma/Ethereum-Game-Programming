@@ -29,7 +29,7 @@
                 default:"arcade",
                 arcade:{
                     gravity:{y:200},
-                    debug:false
+                    debug:true
                 }
             }
         }
@@ -39,10 +39,14 @@
             //variable name of loaded img, src location of img
             this.load.image("knight","assets/knight.png");
             this.load.image("crate","assets/crate.png");
+            this.load.image("background","assets/background.png")
         }
 
         function gameCreate(){
             // initial setup logic on the asset and other setting
+            // draw background
+            this.add.image(300,150,"background");
+            
             // draw knight sprite onto canvas
             knight = this.physics.add.sprite(200,100,"knight");
 
