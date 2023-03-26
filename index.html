@@ -14,6 +14,9 @@
         var cursors;
         var knight;
         var crates;
+        var coinTimer;
+
+        var score;
 
         var config ={
             width:800,
@@ -40,6 +43,8 @@
             this.load.image("knight","assets/knight.png");
             this.load.image("crate","assets/crate.png");
             this.load.image("background","assets/background.png");
+            this.load.image("bitcoin","assets/bitcoin.png");
+
 
             //load run animation frame
             this.load.image("run_frame_1", "assets/knight/run/Run(1).png");
@@ -132,7 +137,45 @@
             this.physics.add.collider(crates, knight);
 
             cursors = this.input.keyboard.createCursorKeys();
+
+            coinTimer = this.time.addEvent({
+                delay:Phaser.Math.Between(1000,3000),
+                callback: generateCoins,
+                callbackScope: this,
+                repeat: -1,
+            });
         }
+
+        function generateCoins(){
+            var coins = this.physics.add.group({
+                key:"bitcoin",
+                repeat:1,
+                setXY:{
+                    x: Phaser.Math.Between(0,800),
+                    y: -100,
+                    stepX: Phaser.Math.Between(30,100)
+                }
+            });
+
+            //make coins bounceable with ground, also able to colliade with knight
+            coins.children.iterate(function(child){
+                child.setBounceY(Phaser.Math.FloatBetween(0.4,1.5))
+            });
+
+            //add collider for coins and create
+            this.physics.add.collider(coins,crates);
+
+            //add overlap event between coins and knight, so knight can pick it up
+            this.physics.add.overlap(knight,coins,collectCoin,null,this);
+        }
+
+        function collectCoin(knight, coin){
+            console.log("collecting coin");
+            coin.disableBody(true,true); //disable and destory coin after collecting
+            score+=1;
+            console.log("score is now: " + score);
+        }   
+
 
         function gameUpdate(){
             // monitoring inputs and telling game how to update
