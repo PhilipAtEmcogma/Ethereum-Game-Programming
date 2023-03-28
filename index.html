@@ -16,7 +16,14 @@
         var crates;
         var coinTimer;
 
-        var score;
+        var score=0;
+        var scoreText;
+
+        var secondsLeft = 60;
+        var timeLeftText;
+        var timeLeftTimer;
+
+        var gameOver = false;
 
         var config ={
             width:800,
@@ -136,14 +143,40 @@
             // defining which objects can colliade with each other
             this.physics.add.collider(crates, knight);
 
+            scoreText = this.add.text(16,16,"Bitcon Bag: 0",
+                                        {fontsize: "32px",
+                                            fill: "0000"});
+
+            timeLeftText = this.add.text(16,66, secondsLeft + "seconds left",
+                                            {fontsize: "32px",
+                                                fill: "FF00"});
+
+
             cursors = this.input.keyboard.createCursorKeys();
 
             coinTimer = this.time.addEvent({
                 delay:Phaser.Math.Between(1000,3000),
                 callback: generateCoins,
                 callbackScope: this,
+                repeat: -1, //-1 to repeate indefintely
+            });
+
+            timeLeftTimer = this.timeraddEvent({
+                delay:1000,
+                callback: updateTimeLeft,
+                callbackScope: this,
                 repeat: -1,
             });
+        }
+
+        function updateTimeLeft(){
+            secondsLeft -= 1;
+            timeLeftText.setText(secondsLeft + " seconds left");
+            if(secondsLeft <= 0){
+                this.physics.pause();
+                gameOver = true;
+            }
+            console.log("seconds left: ",secondsLeft);
         }
 
         function generateCoins(){
@@ -173,6 +206,7 @@
             console.log("collecting coin");
             coin.disableBody(true,true); //disable and destory coin after collecting
             score+=1;
+            scoreText.setText("Bitcoing Bag: " + score);
             console.log("score is now: " + score);
         }   
 
