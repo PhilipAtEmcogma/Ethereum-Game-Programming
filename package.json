@@ -1,5 +1,26 @@
 {
   "dependencies": {
     "openzeppelin-solidity": "^3.4.2"
-  }
+  },
+  "name": "ethereum-game-programming",
+  "version": "1.0.0",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilipAtEmcogma/Ethereum-Game-Programming.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhilipAtEmcogma/Ethereum-Game-Programming/issues"
+  },
+  "homepage": "https://github.com/PhilipAtEmcogma/Ethereum-Game-Programming#readme",
+  "description": ""
 }
